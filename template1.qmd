@@ -1,0 +1,159 @@
+---
+title: "Task1"
+author: "Alina Ryzha"
+date: "2025/10/26"
+format:
+  html:
+    embed-resources: true
+editor: source
+---
+
+## Question 1 Atomic Types
+
+Create the following variables related to your chosen object:
+- 4 numeric values (e.g., population, temperature, size, rating)  
+- 3 integer values (e.g., number of buildings, inhabitants)  
+- 2 logical values (e.g., has_water, is_capital)  
+- 3 character values (e.g., name, region, country)
+
+```{r}
+# Numeric values
+distance_to_bratislava_km <- 45.0     # distance to Bratislava in km
+elevation_m <- 146                    # meters above sea level
+area <- 71.5                          # km²
+avg_density <- 920                    # people per km²
+
+# Integer values
+population <- 66000L
+num_churches <- 11L
+num_schools <- 20L
+
+# Logical values
+has_river <- TRUE
+is_regional_capital <- TRUE
+
+# Character values
+name <- "Trnava"
+nickname <- "Slovak Rome"
+region <- "Trnavský kraj"
+country <- "Slovakia"
+```
+
+```{r}
+# Numeric vector
+
+numeric_vector <- c(population, area, avg_density, elevation_m)
+numeric_vector
+
+# Sequence vector (5 to 80 step 5)
+
+sequence_vector <- seq(from = 5, to = 80, by = 5)
+sequence_vector
+
+# Logical vector of 10 random TRUE/FALSE
+
+set.seed(123)
+logical_vector <- sample(c(TRUE, FALSE), size = 10, replace = TRUE)
+logical_vector
+```
+
+```{r}
+set.seed(42)
+
+# 3×3 matrix with random integers between -40 and 40
+
+m <- matrix(
+sample(-40:40, size = 9, replace = TRUE),
+nrow = 3, ncol = 3, byrow = TRUE
+)
+
+# Name rows/columns
+
+rownames(m) <- c("Centrum", "Prednádražie", "Tulipán")
+colnames(m) <- c("January", "February", "March")
+
+m
+
+# Row and column means
+
+row_avgs <- rowMeans(m)
+col_avgs <- colMeans(m)
+
+row_avgs
+col_avgs
+```
+
+```{r}
+trnava_list <- list(
+description = "Trnava overview: numeric, logical, and text variables with a matrix and computed statistics.",
+
+scalars = list(
+population = population,
+area = area,
+has_river = has_river,
+is_regional_capital = is_regional_capital,
+name = name,
+nickname = nickname,
+region = region,
+country = country
+),
+
+vectors = list(
+numeric = numeric_vector,
+sequence = sequence_vector,
+logical = logical_vector
+),
+
+matrix = m,
+
+matrix_stats = list(
+row_means = row_avgs,
+col_means = col_avgs
+)
+)
+
+str(trnava_list)
+```
+
+```{r}
+development_level <- factor(
+c("high", "medium", "high", "low", "medium", "high", "medium"),
+levels = c("low", "medium", "high"),
+ordered = TRUE
+)
+
+# Check counts
+
+table(development_level)
+```
+
+```{r}
+trnava_df <- data.frame(
+district = c("Centrum", "Prednádražie", "Tulipán", "Modranka", "Hrnčiarovce", "Linčianska"),
+population = c(18000, 12000, 9000, 8000, 7000, 11000),
+has_school = c(TRUE, TRUE, TRUE, FALSE, TRUE, TRUE),
+zone = factor(c("commercial", "residential", "residential", "industrial", "residential", "mixed"),
+levels = c("residential", "mixed", "industrial", "commercial")),
+dist_km = c(0.2, 1.0, 1.8, 2.4, 3.0, 1.5)
+)
+
+# Inspect structure and summary
+
+str(trnava_df)
+summary(trnava_df)
+
+# Add derived column based on population and school availability
+
+trnava_df$priority <- with(
+trnava_df,
+ifelse(population > 10000 & !has_school, "high",
+ifelse(population > 10000, "medium", "low"))
+)
+trnava_df$priority <- factor(trnava_df$priority, levels = c("low", "medium", "high"), ordered = TRUE)
+
+# Quick overview
+
+table(trnava_df$zone)
+table(trnava_df$priority)
+trnava_df
+```
